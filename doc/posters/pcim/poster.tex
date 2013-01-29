@@ -32,9 +32,9 @@
 
 % used to set the footer
 \newcommand\beamerposterfooter{%
-  \foreach \x in {Python, Silkan_medium, bretagne_cont_quadri}{%
-    \hfill\includegraphics[height=1.5em]{\x}\hfill%
-  }%
+  %\foreach \x in {Python, Silkan_medium, bretagne_cont_quadri}{%
+  %  \hfill\includegraphics[height=1.5em]{\x}\hfill%
+  %}%
 }
 
 % Correct a bug in the vertical spacing by added a 'g' phantom,
@@ -46,7 +46,7 @@
 
 \author{\normalsize  A.~Raynaud \and P.~Brunet \and S.~Guelton}
 
-\institute{\normalsize \vspace{4ex} Telecom Bretagne, Brest }
+\institute{\normalsize \vspace{4ex} Journée des utilisateurs de CAPARMOR, Ifremer, Plouzané, 31 janvier 2013}
 
 \begin{document}
 
@@ -149,7 +149,7 @@
   \end{block}
 
 
-  \begin{block}{\Large Results}
+  \begin{block}{\Large Sequential and parallel speedup }
 
     \vspace{\baselineskip}
 
@@ -174,8 +174,13 @@
         \vspace{0.4\baselineskip}
         \item \large Pythran also compares well with other python
           optimization tools, like PyPy or Cython.
-          
         \end{itemize}
+
+        \vspace{\baselineskip}
+
+        \foreach \x in {python, Silkan_medium, bretagne_cont_quadri}{
+          \includegraphics[height=2em]{\x}\hfill
+        }
 
       }
 
