@@ -1,0 +1,115 @@
+\ProvidesPackage{beamerthemetb2} 
+
+%
+%% colors
+\selectcolormodel{rgb}
+\mode<presentation>
+
+% defs
+\definecolor{tbgreen}{rgb}{0.69,0.74,0.02}
+
+% headline colors and fonts
+\setbeamercolor{headline}{fg=white,bg=black}
+\setbeamercolor{author in headline}{fg=white}
+\setbeamercolor{institute in headline}{fg=tbgreen}
+
+%% lines
+%\setbeamercolor{upper separation line head}{fg=cf1}
+%\setbeamercolor{separation line}{bg=cf1}
+
+% footline colors and fonts
+\setbeamercolor{footline}{fg=white, bg=tbgreen}
+\setbeamerfont{footline}{size=\large,series=\rm}
+
+% poster background, body colors, and fonts
+\setbeamercolor*{normal text}{fg=black, bg=white}
+
+% block environment
+\setbeamercolor*{block title}{fg=white,bg=black}
+\setbeamerfont{block title}{size=\large,series=\bf}
+\setbeamercolor*{block body}{bg=white}
+%% example environment
+%\setbeamercolor*{example title}{bg=cff,fg=cbf}
+%\setbeamercolor*{example body}{fg=cfb,bg=cbb}
+%\setbeamercolor*{example text}{fg=cfb,bg=cbb}
+%
+
+% item
+\setbeamertemplate{itemize items}[square]
+\useitemizeitemtemplate{%
+\begin{tikzpicture}%
+	\draw [fill=black,color=black](0,1.25) rectangle (1,0.25);%
+	\draw [fill=tbgreen,color=tbgreen](0.25,1) rectangle (1.25,0);%
+\end{tikzpicture}\hspace{0.1em}%
+}
+\setbeamercolor{alerted text}{fg=tbgreen}
+\setbeamercolor{structure}{fg=tbgreen}              
+
+
+% not used or useful in beamerposter
+\setbeamertemplate{navigation symbols}{}         % no navigation on a poster
+
+%
+%% blocks
+\setbeamertemplate{block begin}{
+  \vspace{1em}%
+  \begin{beamercolorbox}[rounded=true,shadow=true,leftskip=1cm,colsep*=.4ex,center]{block title}%
+  	\usebeamerfont*{block title}\insertblocktitle
+  \end{beamercolorbox}%
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+  \usebeamerfont{block body}%
+  \vspace{0.5em}%
+  \begin{centering}%
+}
+
+\setbeamertemplate{block end}{
+  \end{centering}%
+}
+
+%
+%% headline
+\setbeamertemplate{headline}{  
+  \leavevmode
+
+  \begin{beamercolorbox}[wd=\paperwidth]{headline}
+    \begin{columns}[T]
+      \begin{column}{.02\paperwidth}
+      \end{column}
+      \begin{column}{.96\paperwidth}
+        \vskip2cm
+        \raggedright
+        \begin{columns}[T]
+          \begin{column}{0.75\textwidth}
+            \raggedright
+            \usebeamercolor{title in headline}{\color{fg}\textbf{\huge{\inserttitle}}\\[1ex]}
+            \vspace{0.1cm}
+            \usebeamercolor{author in headline}{\color{fg}\Large{\insertauthor}\\}
+            \vspace{0.2cm}
+            \usebeamercolor{institute in headline}{\color{fg}\large{\insertinstitute}\\[1ex]}
+            \vspace{0.1cm}     
+          \end{column}
+          \begin{column}{0.12\textwidth}
+            %\vspace{-4em}\hfill%
+            \includegraphics[width=\textwidth]{bretagne_cont_quadri}%
+          \end{column}
+        \end{columns}
+        \vspace{1cm}
+      \end{column}
+      \begin{column}{.02\paperwidth}
+      \end{column}
+    \end{columns}
+  \end{beamercolorbox}
+	\vspace{-2em}
+}
+
+%
+%% footline
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \centering
+  \ifdefined\beamerposterfooter\beamerposterfooter\else\insertauthor\fi
+  \vskip4px%
+}
+
+\mode<all>
+
