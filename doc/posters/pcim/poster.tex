@@ -9,16 +9,7 @@
 % others
 \usepackage{xspace} \usepackage{hyperref} \usepackage{fancyvrb}
 \usepackage{listings}
-\lstset{language=python, breaklines=true}
-
-\definecolor{lightbackground}{rgb}{.98,.98,.97}
-\definecolor{darkgray}{rgb}{.3,.3,.3}
-\definecolor{darkred}{rgb}{.6,0,0}
-\definecolor{darkgreen}{rgb}{0,.6,0}
-\definecolor{darkblue}{rgb}{0,0,.6}
-
-\lstset{language=python,%
-  belowskip=.5em, aboveskip=.5em}
+\lstset{language=python, breaklines=true, belowskip=.5em, aboveskip=.5em}
 
 \usepackage[nolist]{acronym}
 
@@ -39,6 +30,7 @@
 % extra macros
 \newcommand{\email}[1]{\texttt{#1}}
 
+% TODO : Inclure logos
 % used to set the footer
 \newcommand\beamerposterfooter{%
   \foreach \x in {}{%
@@ -70,6 +62,7 @@
       \begin{itemize}
       \item A python to C++ compiler for a subset of the
         python language.
+      \item Makes numerical algorithms written in python run faster.
       \end{itemize}
     }
     
@@ -100,9 +93,10 @@
         \vspace{0.4\baselineskip}
         \large
           \begin{itemize}
-            \item A python module is annotated with some interface description.
-            \item Pythran convert it into a C++ module and compiles it.
-            \item A native module is produced
+            \item Python modules are annotated with some interface description.
+            \item Pythran converts them into C++.
+            \item After compilation, the native modules are faster
+              than the original written in python.
           \end{itemize}
   
         \end{block}
@@ -112,9 +106,9 @@
           \vspace{0.4\baselineskip}
           \large 
           \begin{itemize}
-            \item OpenMP-like annotations are added to the python module. 
-            \item Pythran convert them into C++ OpenMP directives.
-            \item The resulting native module uses parallelism.
+            \item OpenMP-like annotations are added to the python modules. 
+            \item Pythran converts the annotations into C++ OpenMP directives.
+            \item The resulting native modules use multithreading.
           \end{itemize}
   
         \end{block}
@@ -169,7 +163,7 @@
           \end{itemize}
         \vspace{0.4\baselineskip}
         \item \large Pythran also compares well with other python
-          optimization tools.
+          optimization tools, like PyPy or Cython.
           
         \end{itemize}
 
