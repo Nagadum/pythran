@@ -1,6 +1,6 @@
 \documentclass[final,t]{beamer}
 
-% themes
+% themes 
 \usetheme{tb2}
 
 % lang
@@ -30,10 +30,9 @@
 % extra macros
 \newcommand{\email}[1]{\texttt{#1}}
 
-% TODO : Inclure logos
 % used to set the footer
 \newcommand\beamerposterfooter{%
-  \foreach \x in {}{%
+  \foreach \x in {Python, Silkan_medium, bretagne_cont_quadri}{%
     \hfill\includegraphics[height=1.5em]{\x}\hfill%
   }%
 }
@@ -45,7 +44,7 @@
   programs}
     
 
-\author{\normalsize P.~Brunet \and S.~Guelton \and A.~Raynaud}
+\author{\normalsize  A.~Raynaud \and P.~Brunet \and S.~Guelton}
 
 \institute{\normalsize \vspace{4ex} Telecom Bretagne, Brest }
 
@@ -82,45 +81,53 @@
   
   \vspace{\baselineskip}
       
+  
+  \begin{block}{\Large Pythran compilation}
+
+    \begin{columns}
+      % 
+      \column{.03\textwidth}{}
+      
+      \column{.45\textwidth}{
+        \large
+        \begin{itemize}
+        \item Python modules are annotated with :
+
+          \begin{itemize}
+            \item Functions signature
+            \item OpenMP-like annotations for parallelization
+          \end{itemize}
+
+        \end{itemize}
+      }
+      
+      \column{.04\textwidth}{}
+      
+      \column{.45\textwidth}{
+        \large
+        \begin{itemize}
+        \item Pythran converts python modules into C++ and compile
+          them into faster (and possibly multithreaded) native
+          modules.
+        \end{itemize}
+      }
+      
+      \column{.03\textwidth}{}
+      
+    \end{columns}
+    
     \begin{columns}
 
-      \column{0.5\textwidth}{
+      \column{0.4\textwidth}{
 
         \vspace{\baselineskip}
+        \includegraphics[width=\textwidth]{compile}
 
-        \begin{block}{\Large Pythran compilation}
-
-        \vspace{0.4\baselineskip}
-        \large
-          \begin{itemize}
-            \item Python modules are annotated with some interface description.
-            \item Pythran converts them into C++.
-            \item After compilation, the native modules are faster
-              than the original written in python.
-          \end{itemize}
-  
-        \end{block}
-
-        \begin{block}{\Large Parallelization}
-
-          \vspace{0.4\baselineskip}
-          \large 
-          \begin{itemize}
-            \item OpenMP-like annotations are added to the python modules. 
-            \item Pythran converts the annotations into C++ OpenMP directives.
-            \item The resulting native modules use multithreading.
-          \end{itemize}
-  
-        \end{block}
       }
 
       \column{0.5\textwidth}{   
 
-        \vspace{0.4\baselineskip}
-
-        \begin{center}
-          \textbf{\Large\color{tbgreen}{Example}}
-          \begin{lstlisting}[language=Python]
+        \begin{lstlisting}[language=Python]
   #pythran export pi_estimate(int)
   def pi_estimate(DARTS):
     hits = 0
@@ -133,11 +140,14 @@
         hits += 1.0
     pi = 4 * (hits / DARTS)
     return pi
-          \end{lstlisting}
-        \end{center}
-      }
+       \end{lstlisting}
 
+      }
+      
     \end{columns}
+
+  \end{block}
+
 
   \begin{block}{\Large Results}
 
@@ -157,7 +167,7 @@
         \item \large Pythran is far more performant than CPython, the
           standard implementation of Python.
           \begin{itemize}
-            \normalsize
+            %\normalsize
           \item Up to 2000x faster.
           \item An additional boost when using parallelism.
           \end{itemize}
