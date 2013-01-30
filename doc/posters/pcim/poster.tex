@@ -37,6 +37,10 @@
   %}%
 }
 
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows}
+\usetikzlibrary{arrows}
+
 % Correct a bug in the vertical spacing by added a 'g' phantom,
 % because putting some \strut{} at every line was to much to fit on
 % the page...
@@ -111,8 +115,8 @@
                     \item Source Repository on github:
                         {\normalsize\texttt{https://github.com/serge-sans-paille/pythran}}
 
-                    \item Meet us on Freenode: \texttt{\#pythran}
-                    \item Join \texttt{pythran@freelists.org}
+                    \item Freenode: \texttt{\#pythran}
+                    \item Mliste: \texttt{pythran@freelists.org}
                 \end{itemize}
             }
 
@@ -126,12 +130,34 @@
 
         \begin{columns}
 
-            \column{0.03\textwidth}{}
+            \column{0.01\textwidth}{}
 
             \column{0.39\textwidth}{
 
                 \vspace{\baselineskip}
-                \includegraphics[width=\textwidth]{compile}
+
+                \begin{tikzpicture}[
+                        file/.style={draw=tbgreen!50,fill=tbgreen!10,rectangle, drop shadow, align=center},
+                    tool/.style={draw=tbgreen!50,fill=tbgreen!10,circle, align=center}]
+                    \node[file] (python) {\textbf{Python Module [\texttt{.py}]}};
+                    \node[file] (annotation)	   [right=of python] {\textbf{Type Info}};
+                    \node[file] (omp)	   [left=of python] {\textbf{OpenMP}};
+                    \node[tool] (pythran) [below=of python] {\textbf{Pythran}};
+                    \node[file] (cxx) [below=of pythran] {\textbf{C++}};
+                    \node[file] (boost) [left=of cxx] {\textbf{\texttt{boost::python}}};
+                    \node[file] (pythonic) [right=of cxx] {\textbf{\texttt{pythonic++}}};
+                    \node[tool] (gxx) [below=of cxx] {\textbf{g++}};
+                    \node[file] (so) [below=of gxx] {\textbf{Native Module [\texttt{.so}]}};
+
+                    \draw[very thick, ->] (python) -- (pythran);
+                    \draw[very thick,dashed, ->] (annotation) -- (pythran);
+                    \draw[very thick,dashed, ->] (omp) -- (pythran);
+                    \draw[very thick, ->] (pythran) -- (cxx);
+                    \draw[very thick, ->] (cxx) -- (gxx);
+                    \draw[very thick, ->] (boost) -- (gxx);
+                    \draw[very thick, ->] (pythonic) -- (gxx);
+                    \draw[very thick, ->] (gxx) -- (so);
+                \end{tikzpicture}
 
             }
             \column{0.04\textwidth}{}   
@@ -155,7 +181,7 @@ def pi_estimate(DARTS):
 
             }
 
-            \column{0.03\textwidth}{}   
+            \column{0.01\textwidth}{}   
 
         \end{columns}
         \vspace{-.5\baselineskip}
