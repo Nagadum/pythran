@@ -40,155 +40,169 @@
 % Correct a bug in the vertical spacing by added a 'g' phantom,
 % because putting some \strut{} at every line was to much to fit on
 % the page...
-\title{Pythran: automatic python to c++ conversion of scientific
+\title{Pythran: automatic Python to c++ conversion of scientific
   programs}
     
 
 \author{\normalsize  A.~Raynaud \and P.~Brunet \and S.~Guelton}
 
-\institute{\normalsize \vspace{4ex} Journée des utilisateurs de CAPARMOR, Ifremer, Plouzané, 31 janvier 2013}
+\institute{\normalsize \vspace{4ex} Journée des utilisateurs de CAPARMOR, Ifremer, Plouzané, 1er février 2013}
 
 \begin{document}
 
 \begin{frame}[fragile]
-  
-  \begin{columns}
-    % 
-    \column{.03\textwidth}{}
-    
-    \column{.45\textwidth}{
-      \Large
-      \begin{itemize}
-      \item A python to C++ compiler for a subset of the
-        python language.
-      \item Makes numerical algorithms written in python run faster.
-      \end{itemize}
-    }
-    
-    \column{.04\textwidth}{}
-    
-    \column{.45\textwidth}{
-      \Large
-      \begin{itemize}
-      \item Can turn a sequential program into a multithreaded
-        one using well-known OpenMP directives.
-      \end{itemize}
-    }
-    
-    \column{.03\textwidth}{}
-    
-  \end{columns}
-  
-  \vspace{\baselineskip}
-      
-  
-  \begin{block}{\Large Pythran compilation}
+
+    \vspace{-.5em}
 
     \begin{columns}
-      % 
-      \column{.03\textwidth}{}
-      
-      \column{.45\textwidth}{
-        \large
-        \begin{itemize}
-        \item Python modules are annotated with :
+        % 
+        \column{.03\textwidth}{}
 
-          \begin{itemize}
-            \item Functions signature
-            \item OpenMP-like annotations for parallelization
-          \end{itemize}
+        \column{.45\textwidth}{
+            \Large
+            \begin{itemize}
+                \item A \textbf{Python to C++} compiler for a subset of the
+                    Python language.
+                \item Makes numerical algorithms written in Python run faster.
+            \end{itemize}
+            \vspace{-1em}
+        }
 
-        \end{itemize}
-      }
-      
-      \column{.04\textwidth}{}
-      
-      \column{.45\textwidth}{
-        \large
-        \begin{itemize}
-        \item Pythran converts python modules into C++ and compile
-          them into faster (and possibly multithreaded) native
-          modules.
-        \end{itemize}
-      }
-      
-      \column{.03\textwidth}{}
-      
+        \column{.04\textwidth}{}
+
+        \column{.45\textwidth}{
+            \Large
+            \begin{itemize}
+                \item Turns sequential programs into multithreaded
+                    ones using well-known \textbf{OpenMP} directives.
+            \end{itemize}
+        }
+
+        \column{.03\textwidth}{}
+
     \end{columns}
-    
-    \begin{columns}
-
-      \column{0.4\textwidth}{
-
-        \vspace{\baselineskip}
-        \includegraphics[width=\textwidth]{compile}
-
-      }
-
-      \column{0.5\textwidth}{   
-
-        \begin{lstlisting}[language=Python]
-  #pythran export pi_estimate(int)
-  def pi_estimate(DARTS):
-    hits = 0
-    "omp parallel for private(i,x,y,dist), reduction(+:hits)"
-    for i in xrange (0, DARTS):
-      x = random()
-      y = random()
-      dist = sqrt(pow(x, 2) + pow(y, 2))
-      if dist <= 1.0:
-        hits += 1.0
-    pi = 4 * (hits / DARTS)
-    return pi
-       \end{lstlisting}
-
-      }
-      
-    \end{columns}
-
-  \end{block}
-
-
-  \begin{block}{\Large Sequential and parallel speedup }
 
     \vspace{\baselineskip}
 
-    \begin{columns}
-      
-      \column{0.45\textwidth}{
-        \vspace{0.4\baselineskip}
-        \includegraphics[width=\textwidth]{cython}
-      }
+    \begin{block}{\Large Pythran Language $\subset$ Python Language}
 
-      \column{0.55\textwidth}{ 
-        \vspace{0.4\baselineskip}
+        \vspace{-.5em}
 
-        \begin{itemize}
-        \item \large Pythran is far more performant than CPython, the
-          standard implementation of Python.
-          \begin{itemize}
-            %\normalsize
-          \item Up to 2000x faster.
-          \item An additional boost when using parallelism.
-          \end{itemize}
-        \vspace{0.4\baselineskip}
-        \item \large Pythran also compares well with other python
-          optimization tools, like PyPy or Cython.
-        \end{itemize}
+        \begin{columns}
+            \column{.03\textwidth}{}
 
-        \vspace{\baselineskip}
+            \column{.4\textwidth}{
+                \Large
+                \begin{itemize}
+                    \item Implicitly \textbf{statically typed}
+                    \item list, set, dict, [numpy array]
+                    \item import math, random, [numpy]
+                    \item generators, comprehension
+                    \item \textbf{No} User Class
+                \end{itemize}
+            }
 
-        \foreach \x in {python, Silkan_medium, bretagne_cont_quadri}{
-          \includegraphics[height=2em]{\x}\hfill
-        }
+            \column{.04\textwidth}{}
 
-      }
+            \column{.5\textwidth}{
+                \Large
+                \begin{itemize}
+                    \item Open Source Software (BSD License)
+                    \item Source Repository on github:
+                        {\normalsize\texttt{https://github.com/serge-sans-paille/pythran}}
 
-    \end{columns}
+                    \item Meet us on Freenode: \texttt{\#pythran}
+                    \item Join \texttt{pythran@freelists.org}
+                \end{itemize}
+            }
 
-  \end{block}
-  
-  
+            \column{.03\textwidth}{}
+        \end{columns}
+    \end{block}
+
+    \begin{block}{\Large Pythran Compilation}
+
+        \vspace{-.5em}
+
+        \begin{columns}
+
+            \column{0.03\textwidth}{}
+
+            \column{0.39\textwidth}{
+
+                \vspace{\baselineskip}
+                \includegraphics[width=\textwidth]{compile}
+
+            }
+            \column{0.04\textwidth}{}   
+
+            \column{0.45\textwidth}{   
+
+                \begin{lstlisting}[language=python]
+#pythran export pi_estimate(int)
+def pi_estimate(DARTS):
+ hits = 0
+ "omp parallel for private(x,y,dist), reduction(+:hits)"
+ for i in xrange (0, DARTS):
+  x = random()
+  y = random()
+  dist = sqrt(pow(x, 2) + pow(y, 2))
+  if dist <= 1.0:
+   hits += 1.0
+ pi = 4 * (hits / DARTS)
+ return pi
+\end{lstlisting}
+
+            }
+
+            \column{0.03\textwidth}{}   
+
+        \end{columns}
+        \vspace{-.5\baselineskip}
+
+    \end{block}
+
+
+    \begin{block}{\Large Sequential and Parallel Speedup }
+
+        %\vspace{\baselineskip}
+
+        \begin{columns}
+
+            \column{0.45\textwidth}{
+                \vspace{0.4\baselineskip}
+                \includegraphics[width=\textwidth]{cython}
+            }
+
+            \column{0.55\textwidth}{ 
+                \vspace{0.4\baselineskip}
+
+                \begin{itemize}
+                    \item \large Pythran outperforms CPython, the
+                        standard implementation of Python.
+                        \begin{itemize}
+                                %\normalsize
+                            \item Up to 2000x faster.
+                            \item Additional boost whith parallelism.
+                        \end{itemize}
+                        \vspace{0.4\baselineskip}
+                    \item \large Pythran generates faster code than other Python
+                        optimization tools, like PyPy, Shedskin or Cython.
+                \end{itemize}
+
+                \vspace{\baselineskip}
+
+                \foreach \x in {python, Silkan_medium, bretagne_cont_quadri}{
+                    \includegraphics[height=3.5em]{\x}\hfill
+                }
+
+            }
+
+        \end{columns}
+
+    \end{block}
+
+
 \end{frame}
 
 \end{document}
