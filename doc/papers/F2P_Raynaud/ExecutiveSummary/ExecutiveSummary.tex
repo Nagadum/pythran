@@ -1,0 +1,61 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}   
+\usepackage[T1]{fontenc}      
+\usepackage[francais]{babel}  
+
+\usepackage{url}
+\usepackage{listings}
+\lstset{language=python}
+
+\usepackage{todonotes}
+%\usepackage[disable]{todonotes}
+
+
+\usepackage[a4paper]{geometry}
+
+\title{Extension du langage Pythran pour le module itertools}           
+\author{Alan Raynaud}
+\date{}                      
+
+\sloppy 
+
+\begin{document}
+
+%Page de garde
+
+\maketitle   
+
+\listoftodos[Liste de ce qui est tout doux]
+
+\clearpage
+
+\section*{Le langage pythran}
+
+\todo{Description de pythran et de son utilité}
+
+\section*{Objectifs}
+
+\todo{Cout de la mémoire en terme de perf, objectif = zero inutile}
+
+\section*{Le module itertools}
+
+\todo{Implementation d'une lib standart de python donnant des
+  operateurs permettant de ne pas gaspiller}
+
+\section*{L'optimisation de code}
+
+\todo{Utilisation des operateurs pour remplacer : genexp en iterateur,
+  list comp, et autre inutiles}
+
+\section*{Résultats obtenus}
+
+\todo{Mesures de gain = super! Par contre, pas toujours possible}
+
+\section*{Conclusion}
+
+\todo{Suprises dues aux subtilités de la synthaxe python. Perspective
+  = augmenter le taux de remplacement.}
+
+\end{document}
+
