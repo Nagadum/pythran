@@ -17,7 +17,7 @@
 
 \usepackage[a4paper]{geometry}
 
-\title{Extension du langage Pythran pour le module itertools}           
+\title{Extension du langage Pythran pour le module \texttt{itertools}}           
 \author{Alan Raynaud}
 \date{}                      
 
@@ -89,14 +89,14 @@ cette surallocation d'espace a un coût en performance : une partie non
 négligeable du temps de calcul est occupé à allouer/désallouer de la
 mémoire.
 
-\subsection*{Le module itertools}
+\subsection*{Le module \texttt{itertools}}
 
-Le langage python fournit un module appelé itertools, qui contient un
+Le langage python fournit un module appelé \texttt{itertools}, qui contient un
 certain nombre d'itérateurs. Ces itérateurs sont les équivalent
 d'autres opérateurs de python, mais produisent leur valeurs au fur et
 à mesure plutôt que de renvoyer une liste de valeur.
 
-Le module itertools est donc une solution en python pour éviter le
+Le module \texttt{itertools} est donc une solution en python pour éviter le
 problème d'allocation de mémoire inutile. Cette solution présente
 cependant l'inconvénient de forcer le développeur python à devoir
 gérer lui-même le choix ou non d'utiliser des itérateurs en fonction
@@ -121,27 +121,27 @@ reconversion en liste de tous les iterateurs introduits dans python
 programme d'origine nécessite que le résultat soit bel et bien une
 liste.
 
-En résumé, itertools apporte une solution au problème mais augmente la
+En résumé, \texttt{itertools} apporte une solution au problème mais augmente la
 charge du développeur.
 
 \section*{Solutions apportées}
 
-\subsection*{Implémentation du module itertools}
+\subsection*{Implémentation du module \texttt{itertools}}
 
 L'un des premiers objectifs du projet a été de permettre à pythran de
-supporter le module itertools. Parmis les itérateurs d'itertools, les
+supporter le module \texttt{itertools}. Parmis les itérateurs d'\texttt{itertools}, les
 4 suivants ont été implémenté :
 
 \begin{itemize}
-  \item imap
-  \item izip
-  \item ifilter
-  \item product
+  \item \texttt{imap}
+  \item \texttt{izip}
+  \item \texttt{ifilter}
+  \item \texttt{product}
 \end{itemize}
 
 Ce sont ces iterateurs qui sont les plus courament utilisés, et ont
 permis de poser les bases de l'implémentation d'un itérateur
-itertools. Parmis les autres iterateurs, un certain nombre ne sont que
+\texttt{itertools}. Parmis les autres iterateurs, un certain nombre ne sont que
 des variantes de ceux-ci, comme ifilterfalse ou iziplongest. Le
 développement des iterateurs manquants pourra être fait à l'avenir, en
 s'appuyant sur ce qui a été réalisé ici.
@@ -149,16 +149,16 @@ s'appuyant sur ce qui a été réalisé ici.
 La figure suivante illuste le gain de performance obtenu par
 utilisation d'un itérateur.
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \includegraphics[width=\textwidth]{MapImap}
-  \caption{Comparaison entre l'opérateur map et son itérateur équivalent.}
+  \caption{Comparaison entre l'opérateur \texttt{map} et son itérateur équivalent.}
 \end{figure}
 \todo{Refaire mesure avec la toute derniere version de map/imap}
 
 
 \subsection*{Optimisations automatique de code}
 
-Comme évoqué précedement, le problème de la solution itertools est
+Comme évoqué précedement, le problème de la solution \texttt{itertools} est
 qu'elle oblige le développeur python à choisir explicitement un
 itérateurs pour optimiser les performances. C'est pour cela qu'une
 grande partie du projet a été dédiée à l'optimisation automatique du
@@ -169,7 +169,7 @@ Les optimisations suivantes ont étée implémentées :
 
 \begin{itemize}
 \item Transformation des opérateurs de base en itérateurs. Exemple :
-  map->imap
+  \texttt{map}->\texttt{imap}
 \item Transformation des List Comprehension en iterateurs.
 \item Transformation des Generator Expressions en itérateurs.
 \end{itemize}
@@ -184,7 +184,7 @@ La plupart de ces optimisations se déroulent en deux parties :
 
 C'est la recherche et le développement d'algorithmes d'analyse qui a
 nécessité le plus de temps. Les transformations étant généralement
-triviale, comme le remplacement de map par imap.
+triviale, comme le remplacement de \texttt{map} par \texttt{imap}.
 
 Comme le montre la figure suivante, les optimisations ont permis un
 gain en performance significatifs quand elles sont possible.
