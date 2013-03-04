@@ -37,7 +37,7 @@
 
 \subsection*{Amélioration des performances du python}
 
-Le langage python, populaire des les milieus scientifiques, a
+Le langage python, populaire des les milieux scientifiques, a
 l'inconvénient d'être très peu performant comparé à des langages comme
 C ou C++. C'est dans le but de permettre d'écrire des programmes
 scientifiques en python qui soient les plus performants possible
@@ -45,7 +45,7 @@ qu'est né le projet pythran.
 
 Pythran convertit un code python en C++, pour ensuite le compiler en
 un programme natif hautement performant. L'utilisation de pythran ne
-nécessite pas de modification du code exsitant, seules quelques
+nécessite pas de modification du code existant, seules quelques
 annotations de typage sont à ajouter en début de fichiers. Pythran
 peut également permettre de paralléliser le code en utilisant des
 annotation openMP, classiquement utilisées en C/C++.
@@ -74,19 +74,19 @@ scientifique.
 \subsection*{Description du problème}
 
 L'un des type les plus souvent manipulé en python est la liste. Il
-s'agit d'un ensemble de valeurs rangée en mémoire, auquelles on peut
+s'agit d'un ensemble de valeurs rangée en mémoire, auxquelles on peut
 accéder à n'importe quel moment et dans l'ordre que l'on souhaite.
 
 Or il arrive que l'on utilise une liste pour stocker des valeurs que
 l'on ne consultera qu'une fois et dans l'ordre dans laquelle elle sont
 stockés. On stock ainsi un ensemble de valeur alors que l'on aurait pu
-les produire et les oublier au fur et à mesure. On a donc reservé un
+les produire et les oublier au fur et à mesure. On a donc réservé un
 espace mémoire pour stocker la liste entière tandis qu'un espace de la
 taille d'une seule valeur aurait suffit.
 
 Des tests montre qu'en plus de consommer inutilement de la mémoire,
-cette surallocation d'espace a un coût en performance : une partie non
-négligeable du temps de calcul est occupé à allouer/désallouer de la
+cette sur-allocation d'espace a un coût en performance : une partie non
+négligeable du temps de calcul est occupé à allouer/dés-allouer de la
 mémoire.
 
 \subsection*{Le module \texttt{itertools}}
@@ -116,7 +116,7 @@ python 3 nécessite donc de nombreuses modifications du code existant.
 
 Il existe un outils nommé 2to3 qui permet d'effectuer automatiquement
 cette conversion. Cependant, 2to3 est très conservatif et force la
-reconversion en liste de tous les iterateurs introduits dans python
+reconversion en liste de tous les itérateurs introduits dans python
 3. En effet, il n'est pas possible de savoir simplement si le
 programme d'origine nécessite que le résultat soit bel et bien une
 liste.
@@ -129,7 +129,7 @@ charge du développeur.
 \subsection*{Implémentation du module \texttt{itertools}}
 
 L'un des premiers objectifs du projet a été de permettre à pythran de
-supporter le module \texttt{itertools}. Parmis les itérateurs d'\texttt{itertools}, les
+supporter le module \texttt{itertools}. Parmi les itérateurs d'\texttt{itertools}, les
 4 suivants ont été implémenté :
 
 \begin{itemize}
@@ -139,33 +139,33 @@ supporter le module \texttt{itertools}. Parmis les itérateurs d'\texttt{itertoo
   \item \texttt{product}
 \end{itemize}
 
-Ce sont ces iterateurs qui sont les plus courament utilisés, et ont
+Ce sont ces itérateurs qui sont les plus couramment utilisés, et ont
 permis de poser les bases de l'implémentation d'un itérateur
-\texttt{itertools}. Parmis les autres iterateurs, un certain nombre ne sont que
+\texttt{itertools}. Parmi les autres itérateurs, un certain nombre ne sont que
 des variantes de ceux-ci, comme ifilterfalse ou iziplongest. Le
-développement des iterateurs manquants pourra être fait à l'avenir, en
+développement des itérateurs manquants pourra être fait à l'avenir, en
 s'appuyant sur ce qui a été réalisé ici.
 
-La figure suivante illuste le gain de performance obtenu par
+La figure suivante illustre le gain de performance obtenu par
 utilisation d'un itérateur.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{MapImap}
   \caption{Comparaison entre l'opérateur \texttt{map} et son itérateur équivalent.}
 \end{figure}
-\todo{Refaire mesure avec la toute derniere version de map/imap}
+\todo{Refaire mesure avec la toute dernière version de map/imap}
 
 
 \subsection*{Optimisations automatique de code}
 
-Comme évoqué précedement, le problème de la solution \texttt{itertools} est
+Comme évoqué précédemment, le problème de la solution \texttt{itertools} est
 qu'elle oblige le développeur python à choisir explicitement un
 itérateurs pour optimiser les performances. C'est pour cela qu'une
 grande partie du projet a été dédiée à l'optimisation automatique du
 programme initial pour utiliser des itérateurs quand cela est possible
 et pertinent.
 
-Les optimisations suivantes ont étée implémentées :
+Les optimisations suivantes ont été implémentées :
 
 \begin{itemize}
 \item Transformation des opérateurs de base en itérateurs. Exemple :
@@ -177,7 +177,7 @@ Les optimisations suivantes ont étée implémentées :
 La plupart de ces optimisations se déroulent en deux parties :
 
 \begin{itemize}
-\item Un algorithme analyse le peogramme pour détecter les parties
+\item Un algorithme analyse le programme pour détecter les parties
   pouvant bénéficier de l'optimisation.
 \item Une transformation applique l'optimisation là où c'est possible.
 \end{itemize}
@@ -207,7 +207,7 @@ type de programme.
 
 Les algorithmes développés pour analyser les cas propices aux
 optimisations peuvent cependant être utiles à d'autres outils que
-pythran. En particuliers, ils pourraient être utilisés par l'outils
+pythran. En particuliers, ils pourraient être utilisés par l'outil
 2to3 pour faire de meilleurs choix de conversion. On gagnerait ainsi
 en performance simplement en convertissant un programme python 2.7
 vers python 3.
