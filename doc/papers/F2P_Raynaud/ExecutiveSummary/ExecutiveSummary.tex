@@ -43,9 +43,9 @@ C ou C++. C'est dans le but de permettre d'écrire des programmes
 scientifiques en python qui soient les plus performants possible
 qu'est né le projet pythran.
 
-Pythran convertit un code python en C++, pour ensuite le compiler en
-un programme natif hautement performant. L'utilisation de pythran ne
-nécessite pas de modification du code existant, seules quelques
+Pythran convertit un code python 2.7 en C++, pour ensuite le compiler
+en un programme natif hautement performant. L'utilisation de pythran
+ne nécessite pas de modification du code existant, seules quelques
 annotations de typage sont à ajouter en début de fichiers. Pythran
 peut également permettre de paralléliser le code en utilisant des
 annotation openMP, classiquement utilisées en C/C++.
@@ -61,28 +61,29 @@ Il existe de nombreux outils visant à améliorer les performances de
 programmes écrit en python.
 
 Il existe par exemple des bibliothèque de calcul scientifique écrite
-en C/C++ et destinée à être utilisée depuis python, comme NumPy.
+en C/C++ et destinée à être utilisée depuis python, comme NumPy. Ce
+type de bibliothèque n'est pas en concurrence, mais peu au contraire
+être complémentaire à pythran.
 
-D'autres approches sont similaires à pythran comme PyPy, Cython ou
-Shedskin. Ces derniers supportent une plus grande partie de python que
-pythran, mais sont moins performant que pythran pour le calcul
-scientifique.
+D'autres approches sont par contre directement en concurrence avec
+pythran comme PyPy, Cython ou Shedskin. Ces derniers supportent une
+plus grande partie de python que pythran, mais sont moins performant
+que pythran pour le calcul scientifique.
 
 
-\section*{Le problème des listes inutiles}
+\section*{Le problème d'allocation de mémoire inutile}
 
 \subsection*{Description du problème}
 
-L'un des type les plus souvent manipulé en python est la liste. Il
-s'agit d'un ensemble de valeurs rangée en mémoire, auxquelles on peut
-accéder à n'importe quel moment et dans l'ordre que l'on souhaite.
+Lorsque l'on veut stocker une grande quantité de données en mémoire,
+il faut réserver un espace suffisant. Or il arrive parfois que l'on
+produise une grande quantité de données, mais qu'on ne lise chaque
+donnée qu'une seule fois et chaque donnée l'une après l'autre. 
 
-Or il arrive que l'on utilise une liste pour stocker des valeurs que
-l'on ne consultera qu'une fois et dans l'ordre dans laquelle elle sont
-stockés. On stock ainsi un ensemble de valeur alors que l'on aurait pu
-les produire et les oublier au fur et à mesure. On a donc réservé un
-espace mémoire pour stocker la liste entière tandis qu'un espace de la
-taille d'une seule valeur aurait suffit.
+Plutôt que de produire toutes ces données en une seule fois et les
+stocker dans un grand espace, on pourrait les produire, les lire et
+les oublier au fur et à mesure. On n'aurait alors besoin que de
+réserver l'espace nécessaire à stocker une seule donnée.
 
 Des tests montre qu'en plus de consommer inutilement de la mémoire,
 cette sur-allocation d'espace a un coût en performance : une partie non
@@ -93,8 +94,8 @@ mémoire.
 
 Le langage python fournit un module appelé \texttt{itertools}, qui contient un
 certain nombre d'itérateurs. Ces itérateurs sont les équivalent
-d'autres opérateurs de python, mais produisent leur valeurs au fur et
-à mesure plutôt que de renvoyer une liste de valeur.
+d'autres opérateurs de python, mais produisent leurs valeurs au fur et
+à mesure plutôt qu'en une seule fois.
 
 Le module \texttt{itertools} est donc une solution en python pour éviter le
 problème d'allocation de mémoire inutile. Cette solution présente
@@ -107,7 +108,8 @@ de chaque situation. \todo{Dire que contraire à philo python?}
 Cette problématique est présente depuis longtemps en python. C'est
 pour cela que dans python 3, beaucoup d'opérateurs de base se
 comportent désormais comme des itérateurs. Le développeur n'a plus à
-se poser de question et il y a beaucoup moins de liste inutiles.
+se poser de question et il y a beaucoup moins d'allocations de mémoire
+inutiles.
 
 Python 3 est cependant incompatible avec les programme écrits en
 python 2.7, qui restent la plus grande majorité des programmes écrits
@@ -119,10 +121,8 @@ cette conversion. Cependant, 2to3 est très conservatif et force la
 reconversion en liste de tous les itérateurs introduits dans python
 3. En effet, il n'est pas possible de savoir simplement si le
 programme d'origine nécessite que le résultat soit bel et bien une
-liste.
+liste ou pourrait être un itérateur.
 
-En résumé, \texttt{itertools} apporte une solution au problème mais augmente la
-charge du développeur.
 
 \section*{Solutions apportées}
 
@@ -130,7 +130,7 @@ charge du développeur.
 
 L'un des premiers objectifs du projet a été de permettre à pythran de
 supporter le module \texttt{itertools}. Parmi les itérateurs d'\texttt{itertools}, les
-4 suivants ont été implémenté :
+4 suivants ont été implémentés :
 
 \begin{itemize}
   \item \texttt{imap}
@@ -139,12 +139,12 @@ supporter le module \texttt{itertools}. Parmi les itérateurs d'\texttt{itertool
   \item \texttt{product}
 \end{itemize}
 
-Ce sont ces itérateurs qui sont les plus couramment utilisés, et ont
-permis de poser les bases de l'implémentation d'un itérateur
-\texttt{itertools}. Parmi les autres itérateurs, un certain nombre ne sont que
-des variantes de ceux-ci, comme ifilterfalse ou iziplongest. Le
-développement des itérateurs manquants pourra être fait à l'avenir, en
-s'appuyant sur ce qui a été réalisé ici.
+Ce sont ces itérateurs qui sont les plus couramment utilisés et ils
+ont permis de poser les bases de l'implémentation d'un itérateur
+\texttt{itertools}. Parmi les autres itérateurs, un certain nombre ne
+sont que des variantes de ceux-ci, comme \texttt{ifilterfalse} ou
+\texttt{iziplongest}. Le développement des itérateurs manquants pourra
+être fait à l'avenir, en s'appuyant sur ce qui a été réalisé ici.
 
 La figure suivante illustre le gain de performance obtenu par
 utilisation d'un itérateur.
@@ -160,10 +160,12 @@ utilisation d'un itérateur.
 
 Comme évoqué précédemment, le problème de la solution \texttt{itertools} est
 qu'elle oblige le développeur python à choisir explicitement un
-itérateurs pour optimiser les performances. C'est pour cela qu'une
+itérateur pour optimiser les performances. C'est pour cela qu'une
 grande partie du projet a été dédiée à l'optimisation automatique du
 programme initial pour utiliser des itérateurs quand cela est possible
 et pertinent.
+
+\vspace{.5em}
 
 Les optimisations suivantes ont été implémentées :
 
@@ -174,20 +176,24 @@ Les optimisations suivantes ont été implémentées :
 \item Transformation des Generator Expressions en itérateurs.
 \end{itemize}
 
+\vspace{.5em}
+
 La plupart de ces optimisations se déroulent en deux parties :
 
-\begin{itemize}
+\begin{enumerate}
 \item Un algorithme analyse le programme pour détecter les parties
   pouvant bénéficier de l'optimisation.
 \item Une transformation applique l'optimisation là où c'est possible.
-\end{itemize}
+\end{enumerate}
 
 C'est la recherche et le développement d'algorithmes d'analyse qui a
-nécessité le plus de temps. Les transformations étant généralement
-triviale, comme le remplacement de \texttt{map} par \texttt{imap}.
+été le plus couteux en temps étant donné la complexité du
+problème. Les transformations quant à elles sont généralement plus
+simples, voire triviales comme le remplacement de \texttt{map} par
+\texttt{imap}.
 
 Comme le montre la figure suivante, les optimisations ont permis un
-gain en performance significatifs quand elles sont possible.
+gain en performance significatif quand elles sont possibles.
 
 \begin{figure}[h]
   \includegraphics[width=\textwidth]{perf_optimization}
@@ -197,13 +203,13 @@ gain en performance significatifs quand elles sont possible.
 
 \section*{Conclusion}
 
-Les optimisations apportées par ce projet permette à pythran
+Les optimisations apportées par ce projet permettent à pythran
 d'améliorer encore plus ses performances sur les cas qui s'y
 prêtent. On doit cependant rappeler que cette optimisation ne porte
 que sur les temps d'allocation de mémoire non nécessaire. Ces temps
 peuvent être très importants dans des programme utilisant de nombreux
-parcours de listes, mais ils peuvent être négligeable dans d'autre
-type de programme.
+parcours de listes, mais ils peuvent être négligeables dans d'autres
+types de programmes.
 
 Les algorithmes développés pour analyser les cas propices aux
 optimisations peuvent cependant être utiles à d'autres outils que
