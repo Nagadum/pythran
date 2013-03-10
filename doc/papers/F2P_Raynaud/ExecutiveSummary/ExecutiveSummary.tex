@@ -58,10 +58,10 @@ facteur 2000.
 \subsection*{Pythran et ses concurrents}
 
 Il existe de nombreux outils visant à améliorer les performances de
-programmes écrit en python.
+programmes écrits en python.
 
-Il existe par exemple des bibliothèque de calcul scientifique écrite
-en C/C++ et destinée à être utilisée depuis python, comme NumPy. Ce
+Il existe par exemple des bibliothèques de calcul scientifique écrites
+en C/C++ et destinées à être utilisées depuis python, comme NumPy. Ce
 type de bibliothèque n'est pas en concurrence, mais peu au contraire
 être complémentaire à pythran.
 
@@ -75,10 +75,11 @@ que pythran pour le calcul scientifique.
 
 \subsection*{Description du problème}
 
-Lorsque l'on veut stocker une grande quantité de données en mémoire,
-il faut réserver un espace suffisant. Or il arrive parfois que l'on
-produise une grande quantité de données, mais qu'on ne lise chaque
-donnée qu'une seule fois et chaque donnée l'une après l'autre. 
+Lorsque l'on veut manipuler une grande quantité de données, le plus
+simple et de réserver un espace mémoire dans lequel on va les stocker,
+pour pouvoir ultérieurement venir les utiliser. L'utilisation que l'on
+va en faire varie, mais il est des cas dans lesquels on ne va venir
+lire qu'une seule fois chaque donnée.
 
 Plutôt que de produire toutes ces données en une seule fois et les
 stocker dans un grand espace, on pourrait les produire, les lire et
@@ -86,16 +87,18 @@ les oublier au fur et à mesure. On n'aurait alors besoin que de
 réserver l'espace nécessaire à stocker une seule donnée.
 
 Des tests montre qu'en plus de consommer inutilement de la mémoire,
-cette sur-allocation d'espace a un coût en performance : une partie non
-négligeable du temps de calcul est occupé à allouer/dés-allouer de la
-mémoire.
+cette sur-allocation d'espace a un coût en performance : une partie
+non négligeable du temps de calcul est occupé à allouer/dés-allouer de
+la mémoire. On pourrait donc améliorer les performances d'un programme
+en utilisant le mémoire de façon plus intelligente.
 
 \subsection*{Le module \texttt{itertools}}
 
-Le langage python fournit un module appelé \texttt{itertools}, qui contient un
-certain nombre d'itérateurs. Ces itérateurs sont les équivalent
-d'autres opérateurs de python, mais produisent leurs valeurs au fur et
-à mesure plutôt qu'en une seule fois.
+Le langage python fournit un module appelé \texttt{itertools}, qui
+contient un certain nombre d'itérateurs. Ces itérateurs sont les
+équivalent d'autres opérateurs de python, mais produisent leurs
+valeurs au fur et à mesure plutôt que de produire une grande liste de
+valeurs lors du premier appel.
 
 Le module \texttt{itertools} est donc une solution en python pour éviter le
 problème d'allocation de mémoire inutile. Cette solution présente
@@ -112,9 +115,9 @@ se poser de question et il y a beaucoup moins d'allocations de mémoire
 inutiles.
 
 Python 3 est cependant incompatible avec les programme écrits en
-python 2.7, qui restent la plus grande majorité des programmes écrits
-en python. Optimiser un programme python 2.7 en le transformant en
-python 3 nécessite donc de nombreuses modifications du code existant.
+python 2.7, qui restent majoritaires. Optimiser un programme python
+2.7 en le transformant en python 3 nécessite donc de nombreuses
+modifications du code existant.
 
 Il existe un outils nommé 2to3 qui permet d'effectuer automatiquement
 cette conversion. Cependant, 2to3 est très conservatif et force la
@@ -210,7 +213,7 @@ parcours de listes, mais ils peuvent être négligeables dans d'autres
 types de programmes.
 
 Les algorithmes développés pour analyser les cas propices aux
-optimisations peuvent cependant être utiles à d'autres outils que
+optimisations peuvent également être utiles à d'autres outils que
 pythran. En particuliers, ils pourraient être utilisés par l'outil
 2to3 pour faire de meilleurs choix de conversion. On gagnerait ainsi
 en performance simplement en convertissant un programme python 2.7
